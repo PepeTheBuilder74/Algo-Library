@@ -23,6 +23,7 @@ public:
     // range sum query
     T sum(size_t idx)
     {
+        assert(idx > 0);
         T ans = 0;
         for (; idx > 0; idx -= (idx & -idx))
         {
@@ -32,12 +33,16 @@ public:
     }
     T sum(size_t l, size_t r)
     {
+        assert(l <= r);
+        if (l == 1 or l == 0)
+            return sum(r);
         return sum(r) - sum(l - 1);
     }
 
     // Point update
     void add(size_t idx, T val)
     {
+        assert(idx > 0);
         for (; idx <= N; idx += (idx & -idx))
         {
             data[idx] += val;
@@ -47,6 +52,8 @@ public:
     // Range update
     void range_add(size_t l, size_t r, T val)
     {
+        assert(l <= r);
+        assert(l > 0);
         add(l, val);
         add(r + 1, -val);
     }
